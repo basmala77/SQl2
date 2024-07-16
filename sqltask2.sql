@@ -2,7 +2,7 @@
 SELECT e.Name, d.DepartmentName FROM Employees e JOIN Departments d ON e.DepartmentID = d.DepartmentID;
 
 ----------------Aggregate Functions-------------------
-
+SELECT AVG(Salary) AS AverageSalary FROM Employees;
 
 ----------------Grouping and Ordering-----------------
 
