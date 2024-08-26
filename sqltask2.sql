@@ -26,15 +26,42 @@ BEGIN
 END;
 
 ----------------Utilizing Built-in Functions------------------
+SELECT 
+    Emp_Name,FORMAT(HireDate, 'dd/MM/yyyy')
+FROM 
+    Employees;
 
 
 ----------------Working with Temporary Data-------------------
 
 
 ----------------Handling Exceptions--------------------
+CREATE PROC USP_DIVIDE(@a decimal, @b decimal, @c decimal output)
+AS 
+BEGIN
+	BEGIN TRY
+		SET @c = @a / @b;
+		print cast (@c as varchar)
+	END TRY
+	BEGIN CATCH 
+			if ERROR_NUMBER() = 8134
+			PRINT 'Error occurred: ' + ERROR_MESSAGE();
+	END CATCH
+END;
+GO
 
 
 ----------------Implementing Trigger-------------------
 
 ----------------Creating User-defined Functions-------------------
+CREATE FUNCTOON ADD_BOUNS(@salary decimal)
+return decimal
+AS
+BEGIN
+	DECLARE @Bonus decimal;
+    SET @Bonus = @salary * 0.10;
+
+	return @Bonus;
+END;
+	
 
