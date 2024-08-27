@@ -52,7 +52,28 @@ GO
 
 
 ----------------Implementing Trigger-------------------
+CREATE TRIGGER UDdate_EMp
+	ON Employees 
+	AFTER INSERT DELETE
+	AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE DEPARTMENTS
+    SET EMPLOYEECOUNT = EMPLOYEECOUNT + (
+        SELECT COUNT(*)
+        FROM INSERTED I
+        WHERE DEPARTMENTS.DEPARTMENTID = I.DepartmentID
+    )
+    WHERE DEPARTMENTID IN (SELECT DepartmentID FROM INSERTED);
 
+    UPDATE DEPARTMENTS
+    SET EMPLOYEECOUNT = EMPLOYEECOUNT - (
+        SELECT COUNT(*)
+        FROM DELETED D
+        WHERE DEPARTMENTS.DEPARTMENTID = D.DepartmentID
+    )
+    WHERE DEPARTMENTID IN (SELECT DepartmentID FROM DELETED);
+END;
 ----------------Creating User-defined Functions-------------------
 CREATE FUNCTOON ADD_BOUNS(@salary decimal)
 return decimal
